@@ -1,30 +1,18 @@
-/*function findSum(array, target){
-if (array.length === 0) return [];
- 
-let map = new Map();
+function countFrequencies (array) {
+    let freqCount = new Map();
 
-for (let i = 0; i < array.length; i++){
-    const num = array[i];
-    let complement = target - num;
+    for (const num of array){
+        if(!freqCount.has(num)){
+            freqCount.set(num, 1);
+        }else {
+            freqCount.set(num, freqCount.get(num) + 1);
+        }
+    }
 
-    if (map.has(complement)){
-        return [complement, num];
-    } 
-    map.set(num, i);
-}
-    return "there are no pairs";
+    return freqCount;
 }
 
-console.log(findSum([1, 2, 3, 4, 5, 6], 3));
-*/
+const array = [1, 2, 3, 2, 1, 4, 2];
 
-const array = [1, 2, 3, 4];
-
-for (let i = 0; i < array.length; i++){
-    const num = array[i];
-
-  // console.log(num);
-   console.log(i);
-}
-
+console.log(countFrequencies(array));
 

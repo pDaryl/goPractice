@@ -2,32 +2,26 @@ package main
 
 import "fmt"
 
-func removeDuplicates (slice []int) []int {
+func countFrequencies (slice []int) map[int]int{
 	if len(slice) == 0 {
-		return []int {}
-	}
-	var result []int
-	mp := make(map[int] bool)
+		return make(map[int]int)}
 
-	for _, num := range slice{
+	freqCount := make(map[int] int)
 
-		_, ok := mp[num] 
+	for _, num := range slice {
+
+		_, ok := freqCount[num]
 		if !ok {
-			result = append(result, num)
-			mp[num] = true
+		freqCount[num] = 1
+		} else {
+			freqCount[num]++
 		}
 	}
-	return result
+	return freqCount
 }
 
-
-
-
 func main (){
-slice := []int {1, 1, 2, 3, 2, 3, 4, 5, 6, 1, 2, 3, 7}
+slice := []int{1, 2, 3, 2, 1, 4, 2}
 
-
-result := removeDuplicates(slice)
-
-fmt.Println(result)
+fmt.Println(countFrequencies(slice))
 }
