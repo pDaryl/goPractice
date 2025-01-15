@@ -2,35 +2,28 @@ package main
 
 import "fmt"
 
-func SliceOfUniqueElements (slice1 []int, slice2 []int) []int {
-	if len(slice1) == 0 && len(slice2) == 0 {
-		return []int {}
-	}
-	
-	var uniqueElements []int
-	mp := make(map[int] bool)
-
-	for _, num := range slice1 {
-		mp[num] = true
+func moveZeroToEnd(slice []int) []int {
+	if len(slice) == 0 {
+		return slice
 	}
 
-	for _, num := range slice2 {
-		mp[num] = true
+	write := 0
+
+	for read := 0; read < len(slice); read++ {
+		if slice[read] != 0 {
+			slice[write] = slice[read]
+			write++
+		}
 	}
 
-	for key := range mp {
-		uniqueElements = append(uniqueElements, key)
+	for i := write; i < len(slice); i++ {
+		slice[i] = 0
 	}
-
-	return uniqueElements
+return slice 
 }
 
 func main (){
-	slice1 := []int{1, 2, 3, 4}
-slice2 := []int{3, 4, 5, 6}
+	slice := []int {1, 2, 0, 3, 0, 4}
 
-// Expected output: [1, 2, 3, 4, 5, 6]
-
-
-	fmt.Println(SliceOfUniqueElements(slice1, slice2))
+	fmt.Println(moveZeroToEnd(slice))
 }
