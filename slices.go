@@ -2,24 +2,35 @@ package main
 
 import "fmt"
 
-func removeValue ( slice []int , value int) []int {
-	if len(slice) == 0 {
-		return slice
+func SliceOfUniqueElements (slice1 []int, slice2 []int) []int {
+	if len(slice1) == 0 && len(slice2) == 0 {
+		return []int {}
+	}
+	
+	var uniqueElements []int
+	mp := make(map[int] bool)
+
+	for _, num := range slice1 {
+		mp[num] = true
 	}
 
-	var result []int
-
-	for _, num := range slice {
-		if num != value {
-			result = append(result, num)
-		}
+	for _, num := range slice2 {
+		mp[num] = true
 	}
-return result
+
+	for key := range mp {
+		uniqueElements = append(uniqueElements, key)
+	}
+
+	return uniqueElements
 }
 
 func main (){
-	slice := []int{1, 4, 5, 6, 2}
-	value := 2
+	slice1 := []int{1, 2, 3, 4}
+slice2 := []int{3, 4, 5, 6}
 
-	fmt.Println(removeValue(slice, value))
+// Expected output: [1, 2, 3, 4, 5, 6]
+
+
+	fmt.Println(SliceOfUniqueElements(slice1, slice2))
 }
