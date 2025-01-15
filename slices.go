@@ -21,5 +21,5 @@ func main (){
 	slice := []int{1, 4, 5, 6, 2}
 	value := 2
 
-	fmt.Println(rotateSlice(slice, value))
+	fmt.Println(removeValue(slice, value))
 }
