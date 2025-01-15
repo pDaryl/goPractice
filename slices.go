@@ -2,28 +2,24 @@ package main
 
 import "fmt"
 
-func rotateSlice ( slice []int , k int) []int {
-
-	if len(slice) <= 1 || k == 0 {
+func removeValue ( slice []int , value int) []int {
+	if len(slice) == 0 {
 		return slice
 	}
 
-	steps := k % len(slice)
-	if steps == 0 {
-		return slice
+	var result []int
+
+	for _, num := range slice {
+		if num != value {
+			result = append(result, num)
+		}
 	}
-
-	part1 := slice[len(slice)-steps:]
-	part2 := slice[:len(slice)-steps]
-
-	result := append(part1, part2...)
-
-	return result
+return result
 }
 
 func main (){
-	slice := []int{1, 2, 3, 4, 5}
-	k := 2
+	slice := []int{1, 4, 5, 6, 2}
+	value := 2
 
-	fmt.Println(rotateSlice(slice, k))
+	fmt.Println(rotateSlice(slice, value))
 }
