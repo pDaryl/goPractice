@@ -2,24 +2,30 @@ package main
 
 import "fmt"
 
-func removeValue ( slice []int , value int) []int {
+func zeroToEnd(slice []int) []int {
 	if len(slice) == 0 {
-		return slice
+		return slice 
 	}
 
-	var result []int
+	write := 0
 
-	for _, num := range slice {
-		if num != value {
-			result = append(result, num)
+	for read := 0; read < len(slice); read++ {
+		if slice[read] != 0 {
+			slice[write] = slice[read]
+			write++
+		}else{
+			slice[read]++
 		}
 	}
-return result
+
+	for i := write; i < len(slice); i++ {
+		slice[i] = 0
+	}
+	return slice
 }
 
 func main (){
-	slice := []int{1, 4, 5, 6, 2}
-	value := 2
+slice := []int {1, 0, 2, 0, 3, 0, 4}
 
-	fmt.Println(removeValue(slice, value))
+fmt.Println(zeroToEnd(slice))
 }
