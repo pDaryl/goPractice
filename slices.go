@@ -2,30 +2,30 @@ package main
 
 import "fmt"
 
-func zeroToEnd(slice []int) []int {
-	if len(slice) == 0 {
-		return slice 
+func leftOrRightSliceRotation(slice []int, k int, direction string) []int {
+	n := len(slice)
+
+	if n == 0 || k == 0{
+		return slice
 	}
 
-	write := 0
-
-	for read := 0; read < len(slice); read++ {
-		if slice[read] != 0 {
-			slice[write] = slice[read]
-			write++
-		}else{
-			slice[read]++
-		}
+	k = k % n
+	if k == 0{
+		return slice
 	}
 
-	for i := write; i < len(slice); i++ {
-		slice[i] = 0
+	if direction == "right" {
+		return append(slice[n - k:], slice[:n - k]...)
+	} else if direction == "left" {
+		return append(slice[k:], slice[:k]...)
 	}
-	return slice
+return slice
 }
 
-func main (){
-slice := []int {1, 0, 2, 0, 3, 0, 4}
 
-fmt.Println(zeroToEnd(slice))
+func main(){
+slice := []int {1, 2, 3, 4, 5, 6}
+k := 2
+
+fmt.Println(leftOrRightSliceRotation(slice, k, "right"))
 }
