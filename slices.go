@@ -2,41 +2,42 @@ package main
 
 import (
 	"fmt"
-	"sort"
 )
 
-func mergingInterval(slice [][]int ) [][]int {
-	if len(slice) == 0 {
-		return slice 
+func mergeSlices(slice1 []int, slice2 []int) []int {
+	if len(slice1) == 0 && len(slice2) == 0 {
+		return slice1
 	}
 
+	storeNums := make(map[int] bool)
+	var merged []int
 
-	sort.Slice(slice, func(a int, b int) bool {
-		return slice[a][0] < slice[b][0]
-	})
+	for _, num := range slice1 {
+	if !storeNums[num]{
+		storeNums[num] = true
+		merged = append(merged, num)
+	}
+	}
 
-	var merged [][]int
-
-	for _, interval := range slice {
-		if len(merged) == 0 || merged[len(merged)-1][1] < interval[0]{
-			merged = append(merged, interval)
-		} else {
-			merged[len(merged)-1][1] = max(merged[len(merged)-1][1], interval[1])
+	for _, num := range slice2 {
+		if !storeNums[num] {
+			storeNums[num] = true
+			merged = append(merged, num)
 		}
 	}
 
-	return merged
+return merged
+	
 }
 
 
 func main() {
-	slice := [][]int{
-		{1, 3},
-		{2, 6},
-		{8, 10},
-		{15, 18},
-	}
+	slice1 := []int{1, 2, 3, 4}
+	slice2 := []int{3, 4, 5, 6}
+  
+	fmt.Println(mergeSlices(slice1, slice2))
 
-	fmt.Println(mergingInterval(slice))
+	//[]int{1, 2, 3, 4, 5, 6}
+  
 } 
 
