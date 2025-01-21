@@ -1,33 +1,31 @@
-function reverse(array, start, end) {
- while (start < end) {
-   var temp = array[start]
-   array[start] = array[end]
-   array[end] = temp
+function findSumContinuousArray (array, k) {
+  if (array.length === 0) return array; 
+
+  if (k === 0) return "no target sum to find";
+
+  var result = [];
+  var start = 0;
+  var currentSum = 0; 
+
+  for (let reader = 0; reader < array.length; reader++){
+    currentSum += array[reader];
+
+   if (currentSum > k && start <= reader) {
+    currentSum -= array[start];
     start++
-    end--
- }
+   }
+   if(currentSum === k) {
+    var subArray = array.slice(start, reader + 1);
+     result.push(subArray);
+   }
+  }
+  return result;
 }
 
-function rotateArrayInPlace(array, k){
-    const len = array.length;
+const array = [1, 2, 3, 4, 5]; 
+const k = 6;
 
-    if (len === 0 || k === 0) return array;
-
-    var steps = k % len;
-
-    if (steps === 0) return array; 
-
-    reverse(array, 0, len-1); // reverse entire array
-    reverse(array, 0, k-1); // grab first elements
-    reverse(array, k, len-1); // grab the remaining elements 
-
-    return array;
-}
-
-const array = [1, 2, 3, 4, 5];
-const k = 2
-
-console.log(rotateArrayInPlace(array, k));
+console.log(findSumContinuousArray(array, k));
 
 
 
