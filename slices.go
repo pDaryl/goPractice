@@ -34,24 +34,24 @@ func rotateSliceInPlace(slice []int, k int) []int {
 func main(){
 slice := []int {1, 2, 3, 4, 5}
 k := 2
-fmt.Println(reverseSliceInPlace(slice, k))
+fmt.Println(rotateSliceInPlace(slice, k))
 
 // -------------------------------
 
 slice1 := []int {1, 2, 3, 4, 5}
 k1 := 0
-fmt.Println(reverseSliceInPlace(slice1, k1))
+fmt.Println(rotateSliceInPlace(slice1, k1))
 
 // -----------------------------
 
 slice2 := []int {}
 k2 := 2
-fmt.Println(reverseSliceInPlace(slice2, k2))
+fmt.Println(rotateSliceInPlace(slice2, k2))
 
 // ----------------------------
 
 slice3 := []int {1, 2, 3, 4, 5}
 k3 := 7
-fmt.Println(reverseSliceInPlace(slice3, k3))
+fmt.Println(rotateSliceInPlace(slice3, k3))
 
 }
