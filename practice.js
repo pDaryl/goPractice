@@ -1,18 +1,33 @@
-function countFrequencies (array) {
-    let freqCount = new Map();
-
-    for (const num of array){
-        if(!freqCount.has(num)){
-            freqCount.set(num, 1);
-        }else {
-            freqCount.set(num, freqCount.get(num) + 1);
-        }
-    }
-
-    return freqCount;
+function reverse(array, start, end) {
+ while (start < end) {
+   var temp = array[start]
+   array[start] = array[end]
+   array[end] = temp
+    start++
+    end--
+ }
 }
 
-const array = [1, 2, 3, 2, 1, 4, 2];
+function rotateArrayInPlace(array, k){
+    const len = array.length;
 
-console.log(countFrequencies(array));
+    if (len === 0 || k === 0) return array;
+
+    var steps = k % len;
+
+    if (steps === 0) return array; 
+
+    reverse(array, 0, len-1); // reverse entire array
+    reverse(array, 0, k-1); // grab first elements
+    reverse(array, k, len-1); // grab the remaining elements 
+
+    return array;
+}
+
+const array = [1, 2, 3, 4, 5];
+const k = 2
+
+console.log(rotateArrayInPlace(array, k));
+
+
 
