@@ -2,35 +2,33 @@ package main
 
 import "fmt"
 
-func findSumContinuousSlices (slice []int, k int) [][]int {
+func lengthLongestSubSliceOfSum (slice []int, k int) (int) {
 	if len(slice) == 0 {
-		return [][]int {}
+		return 0
 	}
 
-	var result = [][]int {}
-	var currentSum int 
+	maxLength := 0
+	currentSum := 0
+	start := 0
 
-	start := 0 // marks the start of a possible sub-array
-
-	for reader := 0; reader < len(slice); reader++{
-		currentSum += slice[reader]
-
-		for currentSum > k && start <= reader {
+	for end := 0; end < len(slice); end++{
+		currentSum += slice[end]
+		
+		if currentSum > k && start <= end{		
 			currentSum -= slice[start]
 			start++
-		} 
-
-		if currentSum == k {
-			subSlice := slice[start:reader+1]
-			result = append(result, subSlice)
+		}
+		
+		if len(slice[start:end+1]) > maxLength{
+			maxLength = len(slice[start:end+1])
 		}
 	}
-return result
+		return maxLength
 }
 
 func main(){
-slice := []int{1, 2, 3, 4, 5}
-k := 6
+slice := []int{2, 1, 5, 2, 3, 2}
+k := 7
 
-fmt.Println(findSumContinuousSlices(slice, k))
+fmt.Println(lengthLongestSubSliceOfSum(slice, k))
 }
