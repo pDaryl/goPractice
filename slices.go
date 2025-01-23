@@ -2,41 +2,34 @@ package main
 
 import "fmt"
 
-func  findLengthLongestSubSliceKElem(slice []int, k int) int {
-if len(slice) == 0 || k > len(slice) {
-	return len(slice)
-}
-
-maxLength := 0
-distinctKeys := make(map[int] int)
-start := 0
-
-for end := 0; end < len(slice); end++ {
-	_, ok := distinctKeys[slice[end]]
-	if !ok {
-		distinctKeys[slice[end]] = 1
-	}else {
-		distinctKeys[slice[end]]++
+func  lengthSubSliceTargetSum (slice []int, k int) int {
+	if len(slice) == 0 {
+		return len(slice)
 	}
 
-	for len(distinctKeys) > k {
-		distinctKeys[slice[start]]--
-		if distinctKeys[slice[start]] == 0 {
-			delete(distinctKeys, slice[start])
+	currentSum := 0 
+	maxLength := 0
+	start := 0 
+
+	for end := 0; end < len(slice); end++ {
+		currentSum += slice[end]
+
+		for currentSum > k {
+			currentSum -= slice[start]
+			start++
 		}
-		start++
+
+		if end - start + 1 > maxLength {
+			maxLength = end - start + 1
+		}
 	}
-	if end - start + 1 > maxLength {
-		maxLength = end - start + 1
-	}
-}
-return maxLength
+	return maxLength
 }
 
 
 func main(){
 slice := []int{1, 1, 1, 2, 2, 2, 3, 4, 5, 6}
-k := 3
+k := 6
 
-fmt.Println(findLengthLongestSubSliceKElem(slice, k))
+fmt.Println(lengthSubSliceTargetSum(slice, k))
 }
