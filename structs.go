@@ -3,18 +3,22 @@ package main
 import "fmt"
 
 
-type Person struct {
-	name string
-	age int 
+type Point struct{
+	X float64
+	Y float64
 }
 
-func createPerson(name string, age int) Person {
-p1 := Person {name: name , age: age}
-return p1
+func createPoint(X float64, Y float64) Point {
+	point := Point {X: X, Y: Y}
 
+	return point
 }
+
+func printPoint(point Point) {
+	fmt.Printf("Point(X: %.2f, Y: %.2f)\n", point.X, point.Y)
+}
+
 func main(){
-person := createPerson("Daryl", 28)
-
-fmt.Printf("Name: %s, Age: %d\n", person.name, person.age)
+	p := createPoint(3.5, 5.3)
+	printPoint(p)
 }
