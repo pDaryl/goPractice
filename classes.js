@@ -1,22 +1,22 @@
-class Rectangle {
-    length;
-    width;
-    constructor(length, width){
-        this.length = length;
-        this.width = width; 
+class Circle {
+    radius;
+    color;
+    constructor(radius, color) {
+        this.radius = radius;
+        this.color = color;
     }
 }
 
-function createRectangle (length, width) {
-    var rectangle = new Rectangle(length, width);
-    return rectangle;
+function createCircle(radius, color) {
+    var circle = new Circle(radius, color);
+    return circle;
 }
 
-function printRectangle (rectangle){
-    console.log(`Rectangle(Length:${rectangle.length}, Width:${rectangle.width})`);
+function printCircle(circle) {
+    console.log(`Circle(Radius:${circle.radius}, Color:${circle.color})`);
 }
 
-const rectangle = createRectangle(4.5, 5.4);
-printRectangle(rectangle);
+const circle = createCircle(7.25, "green");
+printCircle(circle);
 
 

@@ -5,21 +5,21 @@ import (
 )
 
 
-type Rectangle struct{
-	Length float64
-	Width float64
+type Circle struct{
+	Radius float64
+	Color string
 }
 
-func createRectangle (Length float64, Width float64) Rectangle {
-	rectangle := Rectangle{Length: Length, Width: Width}
-	return rectangle
-}
+func createCircle(radius float64, color string) Circle {
+	circle := Circle{Radius: radius, Color: color}
+	return circle
+} 
 
-func printRectangle (rectangle Rectangle){
-	fmt.Printf("Rectangle(Length: %.1f, Width: %.1f)\n", rectangle.Length, rectangle.Width)
-}
+func printCircle(circle Circle) {
+	fmt.Printf("Circle(Radius: %.2f, Color: %s)\n", circle.Radius, circle.Color)
+} 
 
 func main(){
-	rectangle := createRectangle(4.5, 5.4)
-	printRectangle(rectangle)
+c := createCircle(7.25, "green")
+printCircle(c)
 }
