@@ -1,23 +1,22 @@
-class Point {
-    X;
-    Y;
-
-    constructor(X, Y) {
-        this.X = X;
-        this.Y = Y;
+class Rectangle {
+    length;
+    width;
+    constructor(length, width){
+        this.length = length;
+        this.width = width; 
     }
 }
 
-function createPoint (X, Y){
-    var point = new Point(X, Y);
-    return point;
+function createRectangle (length, width) {
+    var rectangle = new Rectangle(length, width);
+    return rectangle;
 }
 
-function printPoint (point) {
-    console.log(`Point(X:${point.X}, Y:${point.Y})`);
+function printRectangle (rectangle){
+    console.log(`Rectangle(Length:${rectangle.length}, Width:${rectangle.width})`);
 }
 
-const p = createPoint(3.5, 5.3);
-printPoint(p)
+const rectangle = createRectangle(4.5, 5.4);
+printRectangle(rectangle);
 
 

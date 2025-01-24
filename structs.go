@@ -1,24 +1,25 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
 
 
-type Point struct{
-	X float64
-	Y float64
+type Rectangle struct{
+	Length float64
+	Width float64
 }
 
-func createPoint(X float64, Y float64) Point {
-	point := Point {X: X, Y: Y}
-
-	return point
+func createRectangle (Length float64, Width float64) Rectangle {
+	rectangle := Rectangle{Length: Length, Width: Width}
+	return rectangle
 }
 
-func printPoint(point Point) {
-	fmt.Printf("Point(X: %.2f, Y: %.2f)\n", point.X, point.Y)
+func printRectangle (rectangle Rectangle){
+	fmt.Printf("Rectangle(Length: %.1f, Width: %.1f)\n", rectangle.Length, rectangle.Width)
 }
 
 func main(){
-	p := createPoint(3.5, 5.3)
-	printPoint(p)
+	rectangle := createRectangle(4.5, 5.4)
+	printRectangle(rectangle)
 }
