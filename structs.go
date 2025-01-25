@@ -5,40 +5,38 @@ import (
 )
 
 
-type Product struct{
-	ProductName string
-	Price float64
-	Supplier Supplier
- }
+type Author struct{
+	Name string
+	Nationality string
+}
 
- type Supplier struct{
-	SupplierName string 
-	Country string
- }
+type Book struct{
+	Title string
+	Pages int
+	Author Author 
+}
 
- func createProduct (name string, price float64, supplierName string, country string ) Product {
-	product := Product{
-		ProductName: name,
-		Price:       price,
-		Supplier:    Supplier{
-			SupplierName: supplierName,
-			Country:      country,
+func createBook (title string, pages int, name string, nationality string) Book {
+	book := Book{
+		Title:  title,
+		Pages:  pages,
+		Author: Author{
+			Name:        name,
+			Nationality: nationality,
 		},
 	}
-	return product
- }
+	return book
+}
 
- func printProduct(product Product) {
-	fmt.Printf(
-		"Product(Name:%s, Price:%f, Supplier: [Name:%s, Country:%s])\n",
-		product.ProductName,
-		product.Price,
-		product.Supplier.SupplierName, 
-		product.Supplier.Country, 
-	)
- }
+func printBook(book Book){
+	fmt.Printf("Book(Title: %s, Pages: %d, Author: [Name: %s, Nationality: %s])\n", 
+book.Title, 
+book.Pages, 
+book.Author.Name,
+book.Author.Nationality)
+}
 
 func main(){
-p := createProduct("Laptop", 99.99, "AmeraTech", "USA")
-printProduct(p)
+b := createBook("Daryl's World", 369, "Daryl Peterson", "American")
+printBook(b)
 }

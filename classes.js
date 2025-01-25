@@ -1,32 +1,28 @@
-class Supplier {
-    constructor(supplierName, country) {
-        this.supplierName = supplierName;
-        this.country = country;
+class Author {
+    constructor(name, nationality) {
+        this.name = name;
+        this.nationality = nationality;
     }
 }
 
-class Product {
-    constructor(productName, price, supplier) {
-        this.productName = productName;
-        this.price = price;
-        this.supplier = supplier;
+class Books {
+    constructor(title, pages, author) {
+        this.title = title;
+        this.pages = pages;
+        this.author = author;
     }
 }
 
-function createProduct(productName, price, supplierName, country){
-    const supplier = new Supplier(supplierName, country);
-    const product = new Product(productName, price, supplier);
-    return product;
+function createBook(title, pages, name, nationality){
+    const author = new Author(name, nationality);
+    const book = new Books(title, pages, author);
+    return book;
 }
 
-function printProduct(product){
-    console.log(`Product(Name: ${product.productName}, 
-        Price: ${parseFloat(product.price)},
-         Supplier: [Name: ${product.supplier.supplierName}, 
-         Country: ${product.supplier.country}])`);
+function printBook(book){
+    console.log(`Book(Title: ${book.title}, Pages: ${book.pages}, Author: [Name: ${book.author.name}, Nationality: ${book.author.nationality}])`);
 }
 
-const p = createProduct("Laptop", 99.99, "Ameratech", "USA");
 
-printProduct(p);
-
+const b = createBook("Daryl's World", 369, "Daryl Peterson", "American");
+printBook(b);
