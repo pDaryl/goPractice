@@ -1,38 +1,32 @@
-class Employee {
-    name;
-    ID;
-    constructor(name, ID) {
-        this.name = name;
-        this.ID = ID;
+class Supplier {
+    constructor(supplierName, country) {
+        this.supplierName = supplierName;
+        this.country = country;
     }
 }
 
-class Address {
-    street
-    city
-    postalCode
-    constructor(street, city, postalCode) {
-        this.street = street;
-        this.city = city;
-        this.postalCode = postalCode;
+class Product {
+    constructor(productName, price, supplier) {
+        this.productName = productName;
+        this.price = price;
+        this.supplier = supplier;
     }
 }
 
-function createEmployee(name, ID, street, city, postalCode){
-    var employee = new Employee(name, ID);
-    var address = new Address(street, city, postalCode);
-    return {employee, address};
+function createProduct(productName, price, supplierName, country){
+    const supplier = new Supplier(supplierName, country);
+    const product = new Product(productName, price, supplier);
+    return product;
 }
 
-function printEmployee({employee, address}){
-    console.log(`Employee(Name:${employee.name}, 
-        ID:${employee.ID}, 
-        Address: [Street:${address.street}, 
-        City:${address.city}, 
-        PostalCode:${address.postalCode}])`);
+function printProduct(product){
+    console.log(`Product(Name: ${product.productName}, 
+        Price: ${parseFloat(product.price)},
+         Supplier: [Name: ${product.supplier.supplierName}, 
+         Country: ${product.supplier.country}])`);
 }
 
-const {employee, address} = createEmployee("Daryl", 100, "Zeta", "Belle Chasse", "70037");
-printEmployee({employee, address});
+const p = createProduct("Laptop", 99.99, "Ameratech", "USA");
 
+printProduct(p);
 

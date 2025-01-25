@@ -4,38 +4,41 @@ import (
 	"fmt"
 )
 
-type Employee struct{
-	Name string
-	ID int 
-	Address Address
-}
 
-type Address struct {
-	Street string
-	City string 
-	PostalCode string 
-}
+type Product struct{
+	ProductName string
+	Price float64
+	Supplier Supplier
+ }
 
-func createEmployee (name string, id int, street string, city string, postalCode string) Employee{
-	employee := Employee{Name: name, ID: id, Address: Address{Street: street, City: city, PostalCode: postalCode}}
-	return employee
-}
+ type Supplier struct{
+	SupplierName string 
+	Country string
+ }
 
-func printEmployee(employee Employee){
+ func createProduct (name string, price float64, supplierName string, country string ) Product {
+	product := Product{
+		ProductName: name,
+		Price:       price,
+		Supplier:    Supplier{
+			SupplierName: supplierName,
+			Country:      country,
+		},
+	}
+	return product
+ }
+
+ func printProduct(product Product) {
 	fmt.Printf(
-		`Employee(Name: %s, ID: %d, Address: [Street: %s, City: %s, PostalCode: %s])
-`,
-		employee.Name,
-		employee.ID,
-		employee.Address.Street,
-		employee.Address.City,
-		employee.Address.PostalCode,
+		"Product(Name:%s, Price:%f, Supplier: [Name:%s, Country:%s])\n",
+		product.ProductName,
+		product.Price,
+		product.Supplier.SupplierName, 
+		product.Supplier.Country, 
 	)
-	// Employee(Name: <name>, ID: <id>, Address: [Street: <street>, City: <city>, PostalCode: <postalCode>])
-
-}
+ }
 
 func main(){
-e:= createEmployee("Daryl", 100, "Zeta", "Belle Chasse", "70037")
-printEmployee(e)
+p := createProduct("Laptop", 99.99, "AmeraTech", "USA")
+printProduct(p)
 }
