@@ -1,22 +1,38 @@
-class Circle {
-    radius;
-    color;
-    constructor(radius, color) {
-        this.radius = radius;
-        this.color = color;
+class Employee {
+    name;
+    ID;
+    constructor(name, ID) {
+        this.name = name;
+        this.ID = ID;
     }
 }
 
-function createCircle(radius, color) {
-    var circle = new Circle(radius, color);
-    return circle;
+class Address {
+    street
+    city
+    postalCode
+    constructor(street, city, postalCode) {
+        this.street = street;
+        this.city = city;
+        this.postalCode = postalCode;
+    }
 }
 
-function printCircle(circle) {
-    console.log(`Circle(Radius:${circle.radius}, Color:${circle.color})`);
+function createEmployee(name, ID, street, city, postalCode){
+    var employee = new Employee(name, ID);
+    var address = new Address(street, city, postalCode);
+    return {employee, address};
 }
 
-const circle = createCircle(7.25, "green");
-printCircle(circle);
+function printEmployee({employee, address}){
+    console.log(`Employee(Name:${employee.name}, 
+        ID:${employee.ID}, 
+        Address: [Street:${address.street}, 
+        City:${address.city}, 
+        PostalCode:${address.postalCode}])`);
+}
+
+const {employee, address} = createEmployee("Daryl", 100, "Zeta", "Belle Chasse", "70037");
+printEmployee({employee, address});
 
 
