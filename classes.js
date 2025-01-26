@@ -1,85 +1,67 @@
-class Author {
-    constructor(authorName, nationality) {
-        this.authorName = authorName;
-        this.nationality = nationality;
-    }
-}
-
-class Genre {
-    constructor(genreName) {
-        this.genreName = genreName;
-    }
-}
-
-class Book {
-    constructor(title, pages, author, genre) {
+class Movie {
+    constructor(title, director, genre, availableCopies) {
         this.title = title;
-        this.pages = pages;
-        this.author = author;
+        this.director = director;
         this.genre = genre;
+        this.availableCopies = availableCopies;
     }
 }
 
-class Library {
-    constructor(libraryName, location) {
-        this.libraryName = libraryName;
-        this.location = location;
-        this.books = [];
-        this.genres = [];
+class Customer {
+    constructor(customerName, moviesRented = []) {
+        this.customerName = customerName;
+        this.moviesRented = moviesRented;
+    }
+}
+
+class RentalStore {
+    constructor(storeName) {
+        this.storeName = storeName;
+        this.movies = new Map();
+        this.customers = new Map();
     }
 
+    addMovies(movie){
+        if(!this.movies.has(movie.title)){
+            this.movies.set(movie.title, movie);
+            console.log(`Movie Added: ${movie.title}`);
+        }
+    }
 
-addBook(book){
-this.books.push(book);
+    registerCustomer(customer) {
+        if(!this.customers.has(customer)){
+            this.customers.set(customer.customerName, customer);
+            console.log(`Customer Registered: ${customer.customerName}, Movies Rented: ${customer.moviesRented}`);
+        }
+    }
 }
 
-addGenre(genre){
-    this.genres.push(genre);
+const store = new RentalStore("Movies R Us")
+
+const movie1 = new Movie("Into Pandemonium",
+		"Mike Will Made",
+		"Fantasy",
+		3,)
+
+const movie2 = new Movie("Who's knocking?",
+    "Jody Flacko",
+    "Thriller",
+     2,)
+
+const customer1 = new Customer("Daryl");
+const customer2 = new Customer("Rae");
+
+store.addMovies(movie1);
+store.addMovies(movie2);
+store.registerCustomer(customer1);
+store.registerCustomer(customer2);
+
+console.log(`Rental Store: ${store.storeName}`);
+console.log(`Available Movies:`);
+for (const [key, m] of store.movies){
+    console.log(`Title: ${m.title}, Directed By ${m.director}, Genre: ${m.genre}, Copies in store: ${m.availableCopies}`);
 }
-}
-
-function createAuthor(authorName, nationality){
-    const author = new Author(authorName, nationality);
-    return author;
-}
-
-function createGenre(genreName){
-    const genre = new Genre(genreName);
-    return genre;
-}
-
-function createBook(title, pages, author, genre) {
-    const book = new Book(title, pages, author, genre);
-    return book;
-}
-
-function createLibrary(libraryName, location){
-    const library = new Library(libraryName, location);
-    return library;
-}
-
-
-const author1 = createAuthor("Daryl", "American");
-const author2 = createAuthor("Peterson", "American");
-
-const genre1 = createGenre("Comedy");
-const genre2 = createGenre("fantasy");
-
-const book1 = createBook("Daryl's World of Excellence", 600, author1, genre1);
-const book2 = createBook("Peterson's Highway Expedition", 400, author2, genre2);
-
-const library = createLibrary("New Orlean's Public Library", "New Orleans");
-
-library.addBook(book1);
-library.addBook(book2);
-library.addGenre(genre1);
-library.addGenre(genre2);
-
-console.log(`${library.libraryName}, ${library.location}`);
-console.log(`Books in the Library:`);
-for (const b of library.books){
-console.log(`- ${b.title} by ${b.author.authorName}`);
-}
-for (const g of library.genres){
-    console.log(`- ${g.genreName}`);
+console.log(`Store Customers:`)
+for (const [key, c] of store.customers){
+    console.log(`Customer: ${c.customerName}, Movies Rented: ${c.moviesRented}`);
 }

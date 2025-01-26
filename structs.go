@@ -1,101 +1,79 @@
 package main
 
-import (
-	"fmt"
-)
+import "fmt"
 
-
-type Author struct{
-	Name string 
-	Nationality string
-}
-
-type Genre struct{
-	Name string
-}
-
-type Book struct{
+type Movie struct {
 	Title string
-	Pages int
-	Author Author 
-	Genre Genre
+	Director string
+	Genre string 
+	AvailableCopies int
 }
 
-type Library struct{
-	Name string
-	Location string
-	Book []Book
-	Genre []Genre
+type Customer struct {
+	CustomersName string
+	MoviesRented []string
 }
 
-func createAuthor(name string, nationality string) Author {
-	author := Author{
-		Name:        name,
-		Nationality: nationality,
+type RentalStore struct {
+	StoreName string
+	Movies map[string]Movie
+	Customers map[string]Customer
+}
+
+func (rs *RentalStore) addMovie(movie Movie){
+	if rs.Movies == nil { // why am i checking if this is nil?
+		rs.Movies = make(map[string]Movie) // why am i creating a map here when i already created a map for this inside of the RentalStore Struct?
 	}
-	return author
+	rs.Movies[movie.Title] = movie 
+	fmt.Println("Movie Added:", movie.Title)
 }
 
-func createGenre(name string) Genre {
-	genre := Genre{
-		Name: name,
+func (rs *RentalStore) registerCustomer(name string){
+	if rs.Customers == nil {  // why am i checking if this is nil?
+		rs.Customers = make(map[string]Customer)  // why am i creating a map here when i already created a map for this inside of the RentalStore Struct?
 	}
-	return genre
-}
-
-func createBook(title string, pages int, author Author, genre Genre) Book {
-	book := Book{
-		Title:  title,
-		Pages:  pages,
-		Author: author,
-		Genre:  genre,
+	rs.Customers[name] = Customer{
+		CustomersName: name,
+		MoviesRented:  []string{},
 	}
-	return book
-}
-
-func createLibrary(name string, location string) Library{
-	library := Library{
-		Name:     name,
-		Location: location,
-		Book:     []Book{},
-		Genre:    []Genre{},
-	}
-	return library
-}
-
-func (l *Library) addBook(book Book){ // what is going on in here? i know i am passing a pointer to library but why?
-	l.Book = append(l.Book, book) // why am i appending the book here?
-}
-
-func (l *Library) addGenre(genre Genre){ // what is going on here? i know i am passing a pointer to library but why? 
-	l.Genre = append(l.Genre, genre) // why am i appending the genre here?
+	fmt.Println("Customer Registered:", name)
 }
 
 func main(){
-author1 := createAuthor("daryl", "USA")
-author2 := createAuthor("peterson", "USA")
+	store := RentalStore{
+		StoreName: "Movies R Us", 
+	}
 
-genre1 := createGenre("Fantasy")
-genre2 := createGenre("Action")
+	movie1 := Movie{
+		Title: "Into Pandemonium",
+		Director: "Mike Will Made",
+		Genre: "Fantasy",
+		AvailableCopies: 3,
+	}
 
-book1 := createBook("D's World", 306, author1, genre1)
-book2 := createBook("P's World", 406, author2, genre2)
+	movie2 := Movie{
+		Title: "Who's knocking?",
+		Director: "Jody Flacko",
+		Genre: "Thriller",
+		AvailableCopies: 2,
+	}
 
-library := createLibrary("New Orlean's Public Library", "New Orleans")
+	store.addMovie(movie1)
+	store.addMovie(movie2)
+	store.registerCustomer("Daryl")
+	store.registerCustomer("Rae")
 
-library.addBook(book1)
-library.addBook(book2)
-library.addGenre(genre1)
-library.addGenre(genre2)
-
-fmt.Printf("Library(Name: %s, Location: %s)\n", library.Name, library.Location)
-fmt.Println("Books in Library:")
-for _, books := range library.Book{
-	fmt.Printf("- %s by %s\n", books.Title, books.Author.Name)
+	fmt.Println("Rental Store:", store.StoreName)
+	fmt.Println("Available Movies:")
+	for _, m := range store.Movies{
+		fmt.Printf("Title: %s, Directed By: %s, Genre: %s, Copies in Store: %d\n", m.Title, m.Director, m.Genre, m.AvailableCopies)
+	}
+	fmt.Println("Store Customers:")
+	for _, c := range store.Customers{
+		fmt.Printf("Name: %s, Rented Movies: %v\n", c.CustomersName, c.MoviesRented)
+	}
 }
-fmt.Println("Genre's in Library:")
-for _, genre := range library.Genre {
-	fmt.Printf("- %s\n", genre.Name)
-}
 
-}
+
+
+
