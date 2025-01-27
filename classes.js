@@ -1,67 +1,57 @@
-class Movie {
-    constructor(title, director, genre, availableCopies) {
-        this.title = title;
-        this.director = director;
-        this.genre = genre;
-        this.availableCopies = availableCopies;
+class Student {
+    constructor(studentName, ID, grade) {
+        this.studentName = studentName;
+        this.ID = ID;
+        this.grades = grade || [];
     }
 }
 
-class Customer {
-    constructor(customerName, moviesRented = []) {
-        this.customerName = customerName;
-        this.moviesRented = moviesRented;
+function listStudents(students){
+    for (const s of students){
+        console.log(`Student: ${s.studentName}, ID: ${s.ID}, Grades: ${s.grades}`);
     }
 }
 
-class RentalStore {
-    constructor(storeName) {
-        this.storeName = storeName;
-        this.movies = new Map();
-        this.customers = new Map();
-    }
+function averageGrades(grades){
+    var sum = 0;
 
-    addMovies(movie){
-        if(!this.movies.has(movie.title)){
-            this.movies.set(movie.title, movie);
-            console.log(`Movie Added: ${movie.title}`);
-        }
+    for (const g of grades){
+        sum += g;
     }
+    var GPA = sum / grades.length;
 
-    registerCustomer(customer) {
-        if(!this.customers.has(customer)){
-            this.customers.set(customer.customerName, customer);
-            console.log(`Customer Registered: ${customer.customerName}, Movies Rented: ${customer.moviesRented}`);
-        }
-    }
+    return GPA;
 }
 
-const store = new RentalStore("Movies R Us")
+function topStudent(students){
+    var topStudent;
+    var highestGPA = 0;
 
-const movie1 = new Movie("Into Pandemonium",
-		"Mike Will Made",
-		"Fantasy",
-		3,)
-
-const movie2 = new Movie("Who's knocking?",
-    "Jody Flacko",
-    "Thriller",
-     2,)
-
-const customer1 = new Customer("Daryl");
-const customer2 = new Customer("Rae");
-
-store.addMovies(movie1);
-store.addMovies(movie2);
-store.registerCustomer(customer1);
-store.registerCustomer(customer2);
-
-console.log(`Rental Store: ${store.storeName}`);
-console.log(`Available Movies:`);
-for (const [key, m] of store.movies){
-    console.log(`Title: ${m.title}, Directed By ${m.director}, Genre: ${m.genre}, Copies in store: ${m.availableCopies}`);
+    for(const s of students){
+       var currentGPA = averageGrades(s.grades);
+       if(currentGPA > highestGPA){
+        topStudent = s;
+        highestGPA = currentGPA;
+       }
+    }
+    return topStudent;
 }
-console.log(`Store Customers:`)
-for (const [key, c] of store.customers){
-    console.log(`Customer: ${c.customerName}, Movies Rented: ${c.moviesRented}`);
+
+function printStudentDetails(students){
+    console.log(`Student: ${students.studentName}, ID: ${students.ID}, Grades: ${students.grades}`);
 }
+
+const students = [
+    new Student("Daryl", "55", [80, 78, 92, 88]), 
+    new Student("Rae", "69", [82, 79, 90, 89]), 
+    new Student("Boo", "1", [99, 90, 80, 70]), 
+];
+
+console.log(`All Students:`);
+for(const s of students){
+    printStudentDetails(s);
+}
+
+console.log(`Top Student Details:`);
+const theTopStudent = topStudent(students);
+printStudentDetails(theTopStudent);

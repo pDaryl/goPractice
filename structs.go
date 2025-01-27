@@ -2,76 +2,75 @@ package main
 
 import "fmt"
 
-type Movie struct {
-	Title string
-	Director string
-	Genre string 
-	AvailableCopies int
+type Student struct{
+	Name string
+	Grades []int
+	ID string
 }
 
-type Customer struct {
-	CustomersName string
-	MoviesRented []string
-}
-
-type RentalStore struct {
-	StoreName string
-	Movies map[string]Movie
-	Customers map[string]Customer
-}
-
-func (rs *RentalStore) addMovie(movie Movie){
-	if rs.Movies == nil { // why am i checking if this is nil?
-		rs.Movies = make(map[string]Movie) // why am i creating a map here when i already created a map for this inside of the RentalStore Struct?
+func listStudents(students []Student){
+	for _, student := range students{
+		fmt.Printf("Student: %s, ID: %s, Grades: %v\n", student.Name, student.ID, student.Grades)
 	}
-	rs.Movies[movie.Title] = movie 
-	fmt.Println("Movie Added:", movie.Title)
 }
 
-func (rs *RentalStore) registerCustomer(name string){
-	if rs.Customers == nil {  // why am i checking if this is nil?
-		rs.Customers = make(map[string]Customer)  // why am i creating a map here when i already created a map for this inside of the RentalStore Struct?
+func (s *Student) averageGrades() float32 {
+	sum := 0
+	for _, g := range s.Grades{
+		sum += g
 	}
-	rs.Customers[name] = Customer{
-		CustomersName: name,
-		MoviesRented:  []string{},
-	}
-	fmt.Println("Customer Registered:", name)
+	 GPA := float32(sum) / float32(len(s.Grades))
+
+	return GPA
 }
+
+func getTopStudent(students []Student) Student {
+	var topStudent Student
+	var highestGPA float32
+
+	for _, student := range students {
+		currentGPA := student.averageGrades()
+		if currentGPA > highestGPA {
+			highestGPA = currentGPA
+			topStudent = student
+		}
+	}
+	return topStudent
+}
+
+func (s *Student) printStudentDetails() {
+	fmt.Printf("Student: %s, ID: %s, Grades: %v, GPA: %.2f\n", s.Name, s.ID, s.Grades, s.averageGrades())
+}
+
 
 func main(){
-	store := RentalStore{
-		StoreName: "Movies R Us", 
-	}
 
-	movie1 := Movie{
-		Title: "Into Pandemonium",
-		Director: "Mike Will Made",
-		Genre: "Fantasy",
-		AvailableCopies: 3,
-	}
+students := []Student{{
+	Name:   "Daryl",
+	Grades: []int{80, 78, 92, 88},
+	ID:     "55",
+}, 
+{
+	Name:   "Rae",
+	Grades: []int{82, 79, 90, 89},
+	ID:     "69",
+}, 
+{
+	Name:   "Boo",
+	Grades: []int{99, 90, 80, 70},
+	ID:     "1",
+},
+}
 
-	movie2 := Movie{
-		Title: "Who's knocking?",
-		Director: "Jody Flacko",
-		Genre: "Thriller",
-		AvailableCopies: 2,
-	}
+fmt.Println("All Students:")
+for _, s := range students {
+	s.printStudentDetails()
+}
 
-	store.addMovie(movie1)
-	store.addMovie(movie2)
-	store.registerCustomer("Daryl")
-	store.registerCustomer("Rae")
+fmt.Println("Top Student Details:")
+topStudent := getTopStudent(students)
+topStudent.printStudentDetails()
 
-	fmt.Println("Rental Store:", store.StoreName)
-	fmt.Println("Available Movies:")
-	for _, m := range store.Movies{
-		fmt.Printf("Title: %s, Directed By: %s, Genre: %s, Copies in Store: %d\n", m.Title, m.Director, m.Genre, m.AvailableCopies)
-	}
-	fmt.Println("Store Customers:")
-	for _, c := range store.Customers{
-		fmt.Printf("Name: %s, Rented Movies: %v\n", c.CustomersName, c.MoviesRented)
-	}
 }
 
 
