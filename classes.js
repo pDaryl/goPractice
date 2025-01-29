@@ -1,57 +1,62 @@
-class Student {
-    constructor(studentName, ID, grade) {
-        this.studentName = studentName;
+class Employee {
+    constructor(employeeName, ID, tasks) {
+        this.employeeName = employeeName;
         this.ID = ID;
-        this.grades = grade || [];
+        this.tasks = tasks || [];
     }
-}
 
-function listStudents(students){
-    for (const s of students){
-        console.log(`Student: ${s.studentName}, ID: ${s.ID}, Grades: ${s.grades}`);
+    addTask(task){
+     this.tasks.push(task);
     }
+
 }
 
-function averageGrades(grades){
-    var sum = 0;
+function listEmployees(employeeName, ID, tasks){
+    const employees = new Employee(employeeName, ID, tasks);
+    return employees;
+}
 
-    for (const g of grades){
-        sum += g;
+function findMostTasks(employees){
+    var mostTasks = 0;
+    var topEmployee = null;
+
+    for(const employee of employees){
+        if(employee.tasks.length > mostTasks){
+            mostTasks = employee.tasks.length;
+            topEmployee = employee;
+        }
     }
-    var GPA = sum / grades.length;
-
-    return GPA;
+    return topEmployee;
 }
 
-function topStudent(students){
-    var topStudent;
-    var highestGPA = 0;
-
-    for(const s of students){
-       var currentGPA = averageGrades(s.grades);
-       if(currentGPA > highestGPA){
-        topStudent = s;
-        highestGPA = currentGPA;
-       }
-    }
-    return topStudent;
-}
-
-function printStudentDetails(students){
-    console.log(`Student: ${students.studentName}, ID: ${students.ID}, Grades: ${students.grades}`);
-}
-
-const students = [
-    new Student("Daryl", "55", [80, 78, 92, 88]), 
-    new Student("Rae", "69", [82, 79, 90, 89]), 
-    new Student("Boo", "1", [99, 90, 80, 70]), 
+const employees = [
+    new Employee(
+		"daryl", 
+		"69", 
+		["clean computer", "take a bath"],
+    ), 
+    new Employee(
+		"Rae", 
+		"1", 
+		["eat a bagel", "read a book", "pick a movie"],
+    ), 
+	new Employee(
+		"Boo", 
+		"55", 
+		["meow a lot", "cuddle with daryl"],
+    ), 
 ];
 
-console.log(`All Students:`);
-for(const s of students){
-    printStudentDetails(s);
-}
+employees[0].addTask("go to gym")
+employees[0].addTask("clean the house")
+employees[2].addTask("use the litter box")
 
-console.log(`Top Student Details:`);
-const theTopStudent = topStudent(students);
-printStudentDetails(theTopStudent);
+
+console.log("All Employees:");
+console.log(employees);
+
+var topEmployee = findMostTasks(employees);
+console.log(`Top Employee:`);
+console.log(topEmployee);
+
+

@@ -2,74 +2,80 @@ package main
 
 import "fmt"
 
-type Student struct{
-	Name string
-	Grades []int
+type Employees struct {
+	EmployeeName string
 	ID string
+	Tasks []string
 }
 
-func listStudents(students []Student){
-	for _, student := range students{
-		fmt.Printf("Student: %s, ID: %s, Grades: %v\n", student.Name, student.ID, student.Grades)
+
+func (e *Employees) addTasks(task string) {
+	e.Tasks = append(e.Tasks, task)
+}
+
+func listEmployees(e Employees) Employees {
+employee := Employees{
+	EmployeeName: e.EmployeeName,
+	ID: e.ID,
+	Tasks: e.Tasks,
+}
+return employee
+}
+
+func findMostTasks(employees []Employees) Employees {
+mostTasks := 0
+var topEmployee Employees
+
+for _, employee := range employees{
+	if len(employee.Tasks) > mostTasks{
+		mostTasks = len(employee.Tasks)
+		topEmployee = employee
 	}
 }
-
-func (s *Student) averageGrades() float32 {
-	sum := 0
-	for _, g := range s.Grades{
-		sum += g
-	}
-	 GPA := float32(sum) / float32(len(s.Grades))
-
-	return GPA
+return topEmployee
 }
-
-func getTopStudent(students []Student) Student {
-	var topStudent Student
-	var highestGPA float32
-
-	for _, student := range students {
-		currentGPA := student.averageGrades()
-		if currentGPA > highestGPA {
-			highestGPA = currentGPA
-			topStudent = student
-		}
-	}
-	return topStudent
-}
-
-func (s *Student) printStudentDetails() {
-	fmt.Printf("Student: %s, ID: %s, Grades: %v, GPA: %.2f\n", s.Name, s.ID, s.Grades, s.averageGrades())
-}
-
 
 func main(){
 
-students := []Student{{
-	Name:   "Daryl",
-	Grades: []int{80, 78, 92, 88},
-	ID:     "55",
-}, 
-{
-	Name:   "Rae",
-	Grades: []int{82, 79, 90, 89},
-	ID:     "69",
-}, 
-{
-	Name:   "Boo",
-	Grades: []int{99, 90, 80, 70},
-	ID:     "1",
-},
+employees := []Employees{
+	{
+		"daryl", 
+		"69", 
+		[]string{"clean computer", "take a bath"},
+	}, 
+	{
+		"Rae", 
+		"1", 
+		[]string{"eat a bagel", "read a book", "pick a movie"},
+	}, 
+	{
+		"Boo", 
+		"55", 
+		[]string{"meow a lot", "cuddle with daryl"},
+	}, 
 }
 
-fmt.Println("All Students:")
-for _, s := range students {
-	s.printStudentDetails()
-}
+employees[0].addTasks("go to gym")
+employees[0].addTasks("clean the house")
+employees[2].addTasks("use the litter box")
 
-fmt.Println("Top Student Details:")
-topStudent := getTopStudent(students)
-topStudent.printStudentDetails()
+fmt.Println("All Employees:")
+for _, e := range employees{
+fmt.Println("Name:",e.EmployeeName, "ID:",e.ID)
+fmt.Println("Tasks:")
+for i, task := range e.Tasks{
+	fmt.Printf("%d. %s\n", i+1, task)
+}
+}
+fmt.Println()
+fmt.Println("Top Employee:")
+topEmployee := findMostTasks(employees)
+fmt.Printf("Name: %s\n", topEmployee.EmployeeName)
+fmt.Printf("ID: %s\n", topEmployee.ID)
+fmt.Println("Tasks:")
+for i, t := range topEmployee.Tasks{
+fmt.Printf("  %d. %s\n", i+1, t)
+}
 
 }
 
