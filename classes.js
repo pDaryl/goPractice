@@ -1,62 +1,51 @@
-class Employee {
-    constructor(employeeName, ID, tasks) {
-        this.employeeName = employeeName;
-        this.ID = ID;
-        this.tasks = tasks || [];
+class Books {
+    constructor(title, author, pages, isCheckedOut) {
+        this.title = title;
+        this.author = author;
+        this.pages = pages;
+        this.isCheckedOut = isCheckedOut;
     }
 
-    addTask(task){
-     this.tasks.push(task);
+    toggleCheckOut(){
+        this.isCheckedOut = !this.isCheckedOut;
     }
-
 }
 
-function listEmployees(employeeName, ID, tasks){
-    const employees = new Employee(employeeName, ID, tasks);
-    return employees;
-}
+function findLongestBook(books){
+    var mostPages = 0;
+    var longestBook = null;
 
-function findMostTasks(employees){
-    var mostTasks = 0;
-    var topEmployee = null;
-
-    for(const employee of employees){
-        if(employee.tasks.length > mostTasks){
-            mostTasks = employee.tasks.length;
-            topEmployee = employee;
+    for(const b of books) {
+        if (b.pages > mostPages){
+            mostPages = b.pages;
+            longestBook = b;
         }
     }
-    return topEmployee;
+    return longestBook;
 }
 
-const employees = [
-    new Employee(
-		"daryl", 
-		"69", 
-		["clean computer", "take a bath"],
+const books = [
+    new Books("Join the War",
+		"PP Wario",
+		269,
+		false,), 
+
+    new Books(
+      "Winner Winner Chicken Dinner",
+	    "W.W Chic",
+		500,
+	    true,
     ), 
-    new Employee(
-		"Rae", 
-		"1", 
-		["eat a bagel", "read a book", "pick a movie"],
-    ), 
-	new Employee(
-		"Boo", 
-		"55", 
-		["meow a lot", "cuddle with daryl"],
-    ), 
-];
+    new Books(
+       "Here me, here ye!",
+		"Ching Ming",
+	    304,
+		true,
+    )
+]
 
-employees[0].addTask("go to gym")
-employees[0].addTask("clean the house")
-employees[2].addTask("use the litter box")
+books[0].toggleCheckOut();
+books[1].toggleCheckOut();
 
-
-console.log("All Employees:");
-console.log(employees);
-
-var topEmployee = findMostTasks(employees);
-console.log(`Top Employee:`);
-console.log(topEmployee);
-
-
+var longestBook = findLongestBook(books);
+console.log(longestBook);

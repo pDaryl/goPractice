@@ -2,81 +2,60 @@ package main
 
 import "fmt"
 
-type Employees struct {
-	EmployeeName string
-	ID string
-	Tasks []string
+
+type Books struct {
+	Title string
+	Author string 
+	Pages int 
+	IsCheckedOut bool
 }
 
-
-func (e *Employees) addTasks(task string) {
-	e.Tasks = append(e.Tasks, task)
+func (b *Books) toggleCheckOut(){
+	b.IsCheckedOut = !b.IsCheckedOut
 }
 
-func listEmployees(e Employees) Employees {
-employee := Employees{
-	EmployeeName: e.EmployeeName,
-	ID: e.ID,
-	Tasks: e.Tasks,
-}
-return employee
-}
+func findLongestBook(books []Books) Books {
+	mostPages := 0
+	var longestBook Books 
 
-func findMostTasks(employees []Employees) Employees {
-mostTasks := 0
-var topEmployee Employees
-
-for _, employee := range employees{
-	if len(employee.Tasks) > mostTasks{
-		mostTasks = len(employee.Tasks)
-		topEmployee = employee
+	for _, b := range books {
+		if b.Pages > mostPages{
+			mostPages = b.Pages
+			longestBook = b 
+		}
 	}
-}
-return topEmployee
-}
+	return longestBook
+}  
 
 func main(){
 
-employees := []Employees{
+books := []Books{
 	{
-		"daryl", 
-		"69", 
-		[]string{"clean computer", "take a bath"},
+		Title: "Join the War",
+		Author: "PP Wario",
+		Pages: 269,
+		IsCheckedOut: false,
 	}, 
 	{
-		"Rae", 
-		"1", 
-		[]string{"eat a bagel", "read a book", "pick a movie"},
+		Title: "Winner Winner Chicken Dinner",
+		Author: "W.W Chic",
+		Pages: 500,
+		IsCheckedOut: true,
 	}, 
 	{
-		"Boo", 
-		"55", 
-		[]string{"meow a lot", "cuddle with daryl"},
-	}, 
+		Title: "Here me, here ye!",
+		Author: "Ching Ming",
+		Pages: 304,
+		IsCheckedOut: true,
+	},
 }
 
-employees[0].addTasks("go to gym")
-employees[0].addTasks("clean the house")
-employees[2].addTasks("use the litter box")
+books[0].toggleCheckOut() 
+books[1].toggleCheckOut()
+fmt.Println(books)
 
-fmt.Println("All Employees:")
-for _, e := range employees{
-fmt.Println("Name:",e.EmployeeName, "ID:",e.ID)
-fmt.Println("Tasks:")
-for i, task := range e.Tasks{
-	fmt.Printf("%d. %s\n", i+1, task)
-}
-}
-fmt.Println()
-fmt.Println("Top Employee:")
-topEmployee := findMostTasks(employees)
-fmt.Printf("Name: %s\n", topEmployee.EmployeeName)
-fmt.Printf("ID: %s\n", topEmployee.ID)
-fmt.Println("Tasks:")
-for i, t := range topEmployee.Tasks{
-fmt.Printf("  %d. %s\n", i+1, t)
-}
-
+longestBook := findLongestBook(books)
+fmt.Println(longestBook)
 }
 
 
