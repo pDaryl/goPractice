@@ -3,59 +3,73 @@ package main
 import "fmt"
 
 
-type Books struct {
+type Movies struct {
 	Title string
-	Author string 
-	Pages int 
-	IsCheckedOut bool
+	Director string
+	Duration int 
+	Watched bool
 }
 
-func (b *Books) toggleCheckOut(){
-	b.IsCheckedOut = !b.IsCheckedOut
+func (m *Movies) toggleWatched(){
+	m.Watched = !m.Watched
 }
 
-func findLongestBook(books []Books) Books {
-	mostPages := 0
-	var longestBook Books 
+func findLongestMovie(movies []Movies) Movies {
+	maxDuration := 0
+	var longestMovie Movies
 
-	for _, b := range books {
-		if b.Pages > mostPages{
-			mostPages = b.Pages
-			longestBook = b 
+	for _, m := range movies {
+		if m.Duration > maxDuration {
+			maxDuration = m.Duration
+			longestMovie = m 
 		}
 	}
-	return longestBook
-}  
+	return longestMovie
+}
+
+func countMoviesWatched(movies []Movies) int{
+	watchedMovies := 0
+	
+for _, m := range movies {
+	if m.Watched == true {
+		watchedMovies++
+	}
+}
+	return watchedMovies
+}
 
 func main(){
 
-books := []Books{
+movies := []Movies{
 	{
-		Title: "Join the War",
-		Author: "PP Wario",
-		Pages: 269,
-		IsCheckedOut: false,
+		Title:    "Go Go Go",
+		Director: "D man",
+		Duration: 97,
+		Watched:  false,
 	}, 
+
 	{
-		Title: "Winner Winner Chicken Dinner",
-		Author: "W.W Chic",
-		Pages: 500,
-		IsCheckedOut: true,
+		Title:    "504 Hoods",
+		Director: "BlackMan Walker",
+		Duration: 110,
+		Watched:  true,
 	}, 
+
 	{
-		Title: "Here me, here ye!",
-		Author: "Ching Ming",
-		Pages: 304,
-		IsCheckedOut: true,
-	},
+		Title:    "Whoa Nelly",
+		Director: "HorseMan Jack",
+		Duration: 78,
+		Watched:  true,
+	}, 
 }
 
-books[0].toggleCheckOut() 
-books[1].toggleCheckOut()
-fmt.Println(books)
+movies[0].toggleWatched()
+longestMovie := findLongestMovie(movies)
+fmt.Println("Movie with longest duration:")
+fmt.Println(longestMovie)
+fmt.Println("Number of Movies watched:")
+fmt.Println(countMoviesWatched(movies))
 
-longestBook := findLongestBook(books)
-fmt.Println(longestBook)
 }
 
 

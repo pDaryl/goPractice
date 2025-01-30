@@ -1,51 +1,52 @@
-class Books {
-    constructor(title, author, pages, isCheckedOut) {
+class Movies {
+    constructor(title, director, duration, watched) {
         this.title = title;
-        this.author = author;
-        this.pages = pages;
-        this.isCheckedOut = isCheckedOut;
+        this.director = director;
+        this.duration = duration;
+        this.watched = watched;
     }
 
-    toggleCheckOut(){
-        this.isCheckedOut = !this.isCheckedOut;
+    toggleWatched(){
+        this.watched = !this.watched;
     }
 }
 
-function findLongestBook(books){
-    var mostPages = 0;
-    var longestBook = null;
+function findLongestMovie(movies){
+    var longestMovie = null;
+    var mostTime = 0;
 
-    for(const b of books) {
-        if (b.pages > mostPages){
-            mostPages = b.pages;
-            longestBook = b;
+    for(const m of movies){
+        if(m.duration > mostTime){
+            mostTime = m.duration;
+            longestMovie = m;
         }
     }
-    return longestBook;
+    return longestMovie;
 }
 
-const books = [
-    new Books("Join the War",
-		"PP Wario",
-		269,
-		false,), 
+function countMoviesWatched(movies){
+    var moviesWatched = 0;
 
-    new Books(
-      "Winner Winner Chicken Dinner",
-	    "W.W Chic",
-		500,
-	    true,
-    ), 
-    new Books(
-       "Here me, here ye!",
-		"Ching Ming",
-	    304,
-		true,
-    )
-]
+    for(const m of movies){
+        if(m.watched === true){
+            moviesWatched++;
+        }
+    }
+    return moviesWatched;
+}
 
-books[0].toggleCheckOut();
-books[1].toggleCheckOut();
+const movies = [
+    new Movies("Go Go Go", "D man", 97, false), 
+    new Movies("504 Hoods", "BlackMan Walker",  110, true), 
+    new Movies("Whoa Nelly", "HorseMan Jack", 78, true),
+];
 
-var longestBook = findLongestBook(books);
-console.log(longestBook);
+movies[0].toggleWatched();
+movies[1].toggleWatched();
+
+
+console.log("All Movies:\n", movies);
+
+var movieCount = countMoviesWatched(movies);
+console.log("Number of movies watched:\n", movieCount);
+
