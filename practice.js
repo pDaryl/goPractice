@@ -26,5 +26,3 @@ const array = [1, 1, 1, 2, 2, 2, 3, 4, 5, 6];
 const k = 6;
 
 console.log(lengthSubArrayTargetSum(array, k));
-
-

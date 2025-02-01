@@ -1,52 +1,138 @@
-class Movies {
-    constructor(title, director, duration, watched) {
+class Songs {
+    constructor(title, artist, duration, isFavorite) {
         this.title = title;
-        this.director = director;
+        this.artist = artist;
         this.duration = duration;
-        this.watched = watched;
+        this.isFavorite = isFavorite;
     }
-
-    toggleWatched(){
-        this.watched = !this.watched;
+    toggleFavorite(){
+        this.isFavorite = !this.isFavorite
     }
 }
 
-function findLongestMovie(movies){
-    var longestMovie = null;
-    var mostTime = 0;
+class Playlist {
+    constructor() {
+        this.songs = [];
+    }
 
-    for(const m of movies){
-        if(m.duration > mostTime){
-            mostTime = m.duration;
-            longestMovie = m;
+    addSong(song){
+        this.songs.push(song);
+    }
+}
+
+function displayPlaylist(playlist){
+    for(const song of playlist.songs){
+        console.log(`Title: ${song.title}, Artist: ${song.artist}, Duration: ${song.duration}, Fav Song: ${song.isFavorite}`);
+    }
+}
+
+function findMostFrequentArtist(playlist){
+    var artistCount = new Map();
+    var mostSeenArtist = null;
+    var freqCount = 0;
+
+    for(const song of playlist.songs){
+        var artist = song.artist
+        artistCount.set(artist, (artistCount.get(artist) || 0) + 1)
+    }
+ 
+    for(const [artist, count] of artistCount.entries()){
+        if(count > freqCount){
+            freqCount = count;
+            mostSeenArtist = artist;
         }
     }
-    return longestMovie;
+    return mostSeenArtist;
 }
 
-function countMoviesWatched(movies){
-    var moviesWatched = 0;
+function removeSongByTitle(playlist, title){
+   var newPlaylist = playlist.songs.filter(song => song.title !== title);
+   return newPlaylist;
+}
 
-    for(const m of movies){
-        if(m.watched === true){
-            moviesWatched++;
+function findLongestSong(songs){
+    var longestSong = null;
+    var songDur = 0;
+
+    for(const s of songs){
+        if(s.duration > songDur){
+            songDur = s.duration;
+            longestSong = s;
         }
     }
-    return moviesWatched;
+    return longestSong;
 }
 
-const movies = [
-    new Movies("Go Go Go", "D man", 97, false), 
-    new Movies("504 Hoods", "BlackMan Walker",  110, true), 
-    new Movies("Whoa Nelly", "HorseMan Jack", 78, true),
-];
+function favSongCount(songs){
+   var favCount = 0;
 
-movies[0].toggleWatched();
-movies[1].toggleWatched();
+   for(const s of songs){
+    if(s.isFavorite === true){
+        favCount++;
+    }
+   }
+   return favCount;
+}
+
+function totalPlaylistDuration(songs){
+    var totalDur = 0;
+
+    for(const s of songs){
+        totalDur += s.duration;
+    }
+    return totalDur;
+}
+
+function findSongsByArtist(songs, artist){
+    var songsByArtist = [];
+    
+    for(const s of songs){
+        if(artist === s.artist){
+            songsByArtist.push(s);
+        }
+    }
+    return songsByArtist;
+}
+
+const songs = [
+    new Songs("New Slaves", "Kanye West", 4, true),
+    new Songs("Child's Play", "Drake", 3, true), 
+    new Songs("One Man Can Change The World", "Big Sean", 4, false),
+    new Songs("Crooked Smile", "J. Cole", 5, true),
+    new Songs("Take Care", "Drake", 4, true),
+]
+
+const playlist = new Playlist();
+
+const song1 = new Songs("Crocodile Tears", "J. Cole", 4, false);
+playlist.addSong(song1);
+playlist.addSong(songs[0]);
+playlist.addSong(songs[1]);
+playlist.addSong(songs[2]);
+playlist.addSong(songs[3]);
+playlist.addSong(songs[4]);
+
+songs[0].toggleFavorite();
+const mostSeenArtist = findMostFrequentArtist(playlist); 
+
+console.log("All Songs:\n");
+console.log(songs);
+console.log("Longest song:\n", findLongestSong(songs));
+console.log("Number of fav songs:\n", favSongCount(songs));
+console.log("Total duration of songs:\n", totalPlaylistDuration(songs));
+console.log("Songs by Artists:\n", findSongsByArtist(songs, "Drake"));
+
+console.log("the playlist:\n")
+displayPlaylist(playlist);
+console.log("most seen artist:\n")
+console.log(mostSeenArtist);
 
 
-console.log("All Movies:\n", movies);
+var newPlaylist = removeSongByTitle(playlist, "Take Care");
+console.log("new playlist:\n");
+console.log(newPlaylist);
 
-var movieCount = countMoviesWatched(movies);
-console.log("Number of movies watched:\n", movieCount);
+
+
+
 
