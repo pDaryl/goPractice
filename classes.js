@@ -1,136 +1,93 @@
-class Songs {
-    constructor(title, artist, duration, isFavorite) {
+class Movies {
+    constructor(title, director, duration, isfavorite) {
         this.title = title;
-        this.artist = artist;
+        this.director = director;
         this.duration = duration;
-        this.isFavorite = isFavorite;
+        this.isfavorite = isfavorite;
     }
-    toggleFavorite(){
-        this.isFavorite = !this.isFavorite
+    toggleFav(){
+        this.isfavorite = !this.isfavorite;
     }
 }
 
-class Playlist {
+class MovieCollection {
     constructor() {
-        this.songs = [];
+        this.movies = [];
     }
 
-    addSong(song){
-        this.songs.push(song);
+    addMovie(newMovie){
+        this.movies.push(newMovie);
     }
-}
 
-function displayPlaylist(playlist){
-    for(const song of playlist.songs){
-        console.log(`Title: ${song.title}, Artist: ${song.artist}, Duration: ${song.duration}, Fav Song: ${song.isFavorite}`);
+    removeMovieByTitle(title){
+     this.movies = this.movies.filter(movie => movie.title !== title);
     }
 }
 
-function findMostFrequentArtist(playlist){
-    var artistCount = new Map();
-    var mostSeenArtist = null;
-    var freqCount = 0;
-
-    for(const song of playlist.songs){
-        var artist = song.artist
-        artistCount.set(artist, (artistCount.get(artist) || 0) + 1)
-    }
- 
-    for(const [artist, count] of artistCount.entries()){
-        if(count > freqCount){
-            freqCount = count;
-            mostSeenArtist = artist;
-        }
-    }
-    return mostSeenArtist;
+function displayMovies(collection){
+    for(const movie of collection.movies){
+        console.log(`Title: ${movie.title}, Director: ${movie.director}, Duration: ${movie.duration}minutes, Favorite: ${movie.isfavorite}`);
+    };
 }
 
-function removeSongByTitle(playlist, title){
-   var newPlaylist = playlist.songs.filter(song => song.title !== title);
-   return newPlaylist;
+function findLongestMovie(collection){
+return collection.movies.reduce((longest, movie) => movie.duration > longest.duration ? movie : longest, collection.movies[0]);
 }
 
-function findLongestSong(songs){
-    var longestSong = null;
-    var songDur = 0;
-
-    for(const s of songs){
-        if(s.duration > songDur){
-            songDur = s.duration;
-            longestSong = s;
-        }
-    }
-    return longestSong;
+function favMovieCount(collection){
+  return collection.movies.filter(movie => movie.isfavorite).length;
 }
 
-function favSongCount(songs){
-   var favCount = 0;
-
-   for(const s of songs){
-    if(s.isFavorite === true){
-        favCount++;
-    }
-   }
-   return favCount;
+function totalMoviesDuration(collection){
+  return collection.movies.reduce((total, movie) => total + movie.duration, 0);
 }
 
-function totalPlaylistDuration(songs){
-    var totalDur = 0;
-
-    for(const s of songs){
-        totalDur += s.duration;
-    }
-    return totalDur;
+function findMoviesByDirector(collection, director){
+return collection.movies.filter(movie => director === movie.director) ;
 }
 
-function findSongsByArtist(songs, artist){
-    var songsByArtist = [];
-    
-    for(const s of songs){
-        if(artist === s.artist){
-            songsByArtist.push(s);
-        }
-    }
-    return songsByArtist;
-}
-
-const songs = [
-    new Songs("New Slaves", "Kanye West", 4, true),
-    new Songs("Child's Play", "Drake", 3, true), 
-    new Songs("One Man Can Change The World", "Big Sean", 4, false),
-    new Songs("Crooked Smile", "J. Cole", 5, true),
-    new Songs("Take Care", "Drake", 4, true),
+const movies = [
+    new Movies("Ho Ho Hoe", "Naughty Santa", 90, false), 
+    new Movies("The Runaway", "D. P.", 110, false),
+    new Movies("Hold Those Horses!", "H. H Manny", 72, false), 
+    new Movies("Don't Leave", "F Boy", 85, false),
 ]
 
-const playlist = new Playlist();
+var movieCollection = new MovieCollection();
 
-const song1 = new Songs("Crocodile Tears", "J. Cole", 4, false);
-playlist.addSong(song1);
-playlist.addSong(songs[0]);
-playlist.addSong(songs[1]);
-playlist.addSong(songs[2]);
-playlist.addSong(songs[3]);
-playlist.addSong(songs[4]);
+const movie1 = new Movies("Through the Trenches", "T. Smith", 90, false);
 
-songs[0].toggleFavorite();
-const mostSeenArtist = findMostFrequentArtist(playlist); 
-
-console.log("All Songs:\n");
-console.log(songs);
-console.log("Longest song:\n", findLongestSong(songs));
-console.log("Number of fav songs:\n", favSongCount(songs));
-console.log("Total duration of songs:\n", totalPlaylistDuration(songs));
-console.log("Songs by Artists:\n", findSongsByArtist(songs, "Drake"));
-
-console.log("the playlist:\n")
-displayPlaylist(playlist);
-console.log("most seen artist:\n")
-console.log(mostSeenArtist);
+movieCollection.addMovie(movie1);
+for(const movie of movies){
+    movieCollection.addMovie(movie);
+};
 
 
-var newPlaylist = removeSongByTitle(playlist, "Take Care");
-console.log("new playlist:\n");
-console.log(newPlaylist);
+movieCollection.movies[0].toggleFav();
+
+//displayMovies(movieCollection);
+
+movieCollection.removeMovieByTitle("Hold Those Horses!");
+
+console.log("Movie Collection:");
+displayMovies(movieCollection);
+
+console.log("\n");
+console.log("Longest movie in collection:");
+console.log(findLongestMovie(movieCollection));
+
+console.log("\n");
+console.log("Number of fav movies:")
+console.log(favMovieCount(movieCollection));
+
+console.log("\n");
+const totalDur = totalMoviesDuration(movieCollection);
+console.log("Total duration of movies:")
+console.log(`${totalDur} minutes`);
+
+console.log("\n");
+console.log("Movie found by director name:")
+console.log(findMoviesByDirector(movieCollection, "D. P."));
 
 
 

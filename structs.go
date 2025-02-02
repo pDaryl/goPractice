@@ -2,198 +2,144 @@ package main
 
 import "fmt"
 
-type Songs struct{
+type Movies struct {
 	Title string
-	Artist string
+	Director string 
 	Duration int
-	IsFavorite bool
+	isFavorite bool
 }
 
-type Playlist struct{
-	Songs []Songs
+type MovieCollection struct{
+	Movies []Movies
 }
 
-
-func (s *Songs) isFav(){
-	s.IsFavorite = !s.IsFavorite
+func DisplayMovies(movies []Movies){
+	for _, m := range movies {
+		fmt.Printf("Title: %s, Director: %s, Duration: %d, Favorites: %v\n", m.Title, m.Director, m.Duration, m.isFavorite)
+	}
 }
 
-
-func (p *Playlist) addSong(newSong Songs){
-	p.Songs = append(p.Songs, newSong)
+func (m *Movies) toggleFav(){
+	m.isFavorite = !m.isFavorite
 }
 
-func findLongestSong(songs []Songs) Songs{
-	var longestSong Songs
-	maxDur := 0
+func (mc *MovieCollection) addMovie(NewMovie Movies){
+	mc.Movies = append(mc.Movies, NewMovie)
+}
 
-	for _, s := range songs{
-		if s.Duration > maxDur{
-			maxDur = s.Duration
-			longestSong = s
+func (mc *MovieCollection) removeMovieByTitle(title string) []Movies {
+var editedMovies []Movies
+
+for _, movie := range mc.Movies {
+if movie.Title != title {
+	editedMovies = append(editedMovies, movie)
+}
+}
+return editedMovies
+}
+
+func findLongestDuration(collection []Movies) Movies {
+var longestMovie Movies
+maxDur := 0
+
+for _, c := range collection{
+	if c.Duration > maxDur {
+		maxDur = c.Duration
+		longestMovie = c
+	}
+}
+return longestMovie
+}
+
+func favMovieCount(collection []Movies) int {
+	favMovies := 0
+
+	for _, c := range collection{
+		if c.isFavorite == true {
+			favMovies++
 		}
 	}
-	return longestSong
+	return favMovies
 }
 
-func countFavSongs(songs []Songs) int {
-	favSongsCount := 0
+func findMoviesByDirector(collection []Movies, director string) []Movies {
+var movieByDirector []Movies
 
-	for _, s := range songs{
-		if s.IsFavorite == true{
-			favSongsCount++
-		} 
+for _, c := range collection {
+	if c.Director == director {
+		movieByDirector = append(movieByDirector, c)
 	}
-	return favSongsCount
+}
+return movieByDirector
 }
 
-func totalPlaylistDuration(songs []Songs) int {
+func totalMoviesDuration(collection []Movies) int {
 	totalDur := 0
 
-	for _, s := range songs {
-		totalDur += s.Duration
+	for _, c := range collection {
+		totalDur += c.Duration
 	}
 	return totalDur
 }
 
-func findSongsByArtist(songs []Songs, Artist string) []Songs {
-var songsByArtist []Songs
-
-for _, s := range songs {
-	if Artist == s.Artist {
-		songsByArtist = append(songsByArtist, s)
-	}
-}
-return songsByArtist
-}
-
-func findMostFrequentArtist(playlist []Songs ) string {
-	artistCount := make(map[string] int)
-	var freqArtist string
-	var freqCount int
-
-	for _, p := range playlist{
-	artistCount[p.Artist]++
-	}
-	for artist, count := range artistCount{
-		if count > freqCount{
-			freqCount = count
-			freqArtist = artist
-		}
-	}
-	return freqArtist
-}
-
-func displayPlaylist(playlist []Songs) {
-	for _, song := range playlist{
-fmt.Printf("Title: %s, Artist: %s, Duration: %d, Favorite: %v\n", 
-song.Title, 
-song.Artist, 
-song.Duration, 
-song.IsFavorite )
-	}
-}
-
-func removeSongByTitle(playlist []Songs, title string) []Songs {
-	var editedPlaylist []Songs
-
-	for _, song := range playlist{
-		if song.Title != title{
-			editedPlaylist = append(editedPlaylist, song)
-		}
-	}
-	return editedPlaylist
-}
-
 func main(){
 
-songs := []Songs {
-	{
-		Title:      "New Slaves",
-		Artist:     "Kanye West",
-		Duration:   4,
-		IsFavorite: true,
+	movies := []Movies{
+		{Title:      "The Runaway",
+		Director:   "D. P.",
+		Duration:   110,
+		isFavorite: false,
 	}, 
 	{
-		Title:      "Child's Play",
-		Artist:     "Drake",
-		Duration:   3,
-		IsFavorite: true,
+		Title:      "Hold Those Horses!",
+		Director:   "H. H. Manny",
+		Duration:   72,
+		isFavorite: false,
 	}, 
 	{
-		Title:      "One Man Can Change The World",
-		Artist:     "Big Sean",
-		Duration:   4,
-		IsFavorite: true,
-	}, 
-	{
-		Title:      "Crooked Smile",
-		Artist:     "J. Cole",
-		Duration:   5,
-		IsFavorite: true,
-	},
-	{
-		Title:      "Take Care",
-		Artist:     "Drake",
-		Duration:   4,
-		IsFavorite: true,
+		Title:      "Don't Leave",
+		Director:   "F Boy",
+		Duration:   85,
+		isFavorite: false,
 	},
 }
 
-playList := Playlist{}
+movieCollection := MovieCollection{}
 
-newSong1 := Songs{
-	Title:      "Crocodile Tears",
-	Artist:     "J. Cole",
-	Duration:   3,
-	IsFavorite: false,
+movies[0].toggleFav()
+
+movie1 := Movies{
+	Title:      "Ho Ho Hoe",
+	Director:   "Naughty Santa",
+	Duration:   90,
+	isFavorite: false,
 }
 
-songs[0].isFav()
-playList.addSong(newSong1)
-playList.addSong(songs[0])
-playList.addSong(songs[3])
-playList.addSong(songs[1])
-playList.addSong(songs[2])
+movieCollection.addMovie(movie1)
+movieCollection.addMovie(movies[0])
+movieCollection.addMovie(movies[1])
+movieCollection.addMovie(movies[2])
 
-mostListenedArtist := findMostFrequentArtist(playList.Songs)
-
-fmt.Println("All songs:")
-displayPlaylist(songs)
+//DisplayMovies(movies)
+fmt.Println("All movies in collectin:")
+DisplayMovies(movieCollection.Movies)
 
 fmt.Println()
-fmt.Println("Duration of all songs:")
-songDur := totalPlaylistDuration(songs)
-fmt.Printf("%d mins\n", songDur)
+fmt.Println("All Movies AFTER removing:")
+movieCollection.Movies = movieCollection.removeMovieByTitle("Hold Those Horses!")
+DisplayMovies(movieCollection.Movies)
 
 fmt.Println()
-fmt.Println("Number of favorite Songs:")
-fmt.Println(countFavSongs(songs))
+longestMovie := findLongestDuration(movieCollection.Movies)
+fmt.Printf("the longest movie: %v\n", longestMovie)
 
 fmt.Println()
-fmt.Println("Longest song in playlist:")
-fmt.Println(findLongestSong(songs))
+fmt.Println("Number of favorite movies in collection:", favMovieCount(movieCollection.Movies))
 
 fmt.Println()
-fmt.Println("Return songs by Artist:")
-fmt.Println(findSongsByArtist(songs, "Drake"))
+moviesByDirector := findMoviesByDirector(movieCollection.Movies, "D. P.")
+fmt.Println("Movies by Director name:\n", moviesByDirector)
 
 fmt.Println()
-fmt.Println("Songs in Playlist:")
-displayPlaylist(playList.Songs)
-
-fmt.Println()
-fmt.Print("Most Listned to Artist in playlist:\n")
-fmt.Println(mostListenedArtist)
-
-fmt.Println()
-fmt.Println("Edited Playlist:")
-playList.Songs = removeSongByTitle(playList.Songs, "Crooked Smile")
-displayPlaylist(playList.Songs)
-
-
+fmt.Printf("Total Duration of all movies is %dmins:\n", totalMoviesDuration(movieCollection.Movies))
 }
-
-
-
-
