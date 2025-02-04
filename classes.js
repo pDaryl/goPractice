@@ -1,93 +1,80 @@
-class Movies {
-    constructor(title, director, duration, isfavorite) {
+class Books{
+    constructor(title, author, pages, isCheckedOut) {
         this.title = title;
-        this.director = director;
-        this.duration = duration;
-        this.isfavorite = isfavorite;
+        this.author = author; 
+        this.pages = pages;
+        this.isCheckedOut = isCheckedOut;
     }
     toggleFav(){
-        this.isfavorite = !this.isfavorite;
+        this.isCheckedOut = !this.isCheckedOut;
     }
 }
 
-class MovieCollection {
-    constructor() {
-        this.movies = [];
+class Library{
+    constructor(){
+        this.books = [];
     }
 
-    addMovie(newMovie){
-        this.movies.push(newMovie);
+    addBook(newBook){
+        this.books.push(newBook);
     }
 
-    removeMovieByTitle(title){
-     this.movies = this.movies.filter(movie => movie.title !== title);
+    removeBookByTitle(title){
+     return this.books = this.books.filter(book => book.title !== title);
+    }
+
+    getBooksByAuthor(author){
+      return this.books.filter(book => book.author === author);
+    }
+
+    getTotalPages(){
+        return this.books.reduce((total, book) => total + book.pages, 0);
     }
 }
 
-function displayMovies(collection){
-    for(const movie of collection.movies){
-        console.log(`Title: ${movie.title}, Director: ${movie.director}, Duration: ${movie.duration}minutes, Favorite: ${movie.isfavorite}`);
-    };
+function displayLibrary(library){
+    for (const book of library.books){
+        console.log(`Title: ${book.title}, Author: ${book.author}, Pages ${book.pages}, isCheckedOut: ${book.isCheckedOut}`);
+    }
 }
 
-function findLongestMovie(collection){
-return collection.movies.reduce((longest, movie) => movie.duration > longest.duration ? movie : longest, collection.movies[0]);
+function displayBooks(books){
+    for(const book of books){
+        console.log(`Title: ${book.title}, Author: ${book.author}, Pages ${book.pages}, isCheckedOut: ${book.isCheckedOut}`)
+    }
 }
 
-function favMovieCount(collection){
-  return collection.movies.filter(movie => movie.isfavorite).length;
-}
 
-function totalMoviesDuration(collection){
-  return collection.movies.reduce((total, movie) => total + movie.duration, 0);
-}
 
-function findMoviesByDirector(collection, director){
-return collection.movies.filter(movie => director === movie.director) ;
-}
-
-const movies = [
-    new Movies("Ho Ho Hoe", "Naughty Santa", 90, false), 
-    new Movies("The Runaway", "D. P.", 110, false),
-    new Movies("Hold Those Horses!", "H. H Manny", 72, false), 
-    new Movies("Don't Leave", "F Boy", 85, false),
+const books = [
+    new Books("The Night Ends With Fire", "K. X. Song", 410, false),
+    new Books("Four Ruined Realms", "Mai Corland", 413, false), 
+    new Books("The Way of Kings", "Brandon Sanderson", 1007, false), 
+    new Books("Words of Radiance", "Brandon Sanderson", 1088, false),
 ]
 
-var movieCollection = new MovieCollection();
+const library = new Library();
 
-const movie1 = new Movies("Through the Trenches", "T. Smith", 90, false);
+for(const book of books){
+    library.addBook(book);
+}
 
-movieCollection.addMovie(movie1);
-for(const movie of movies){
-    movieCollection.addMovie(movie);
-};
+const book1 = new Books("Five Broken Blades", "Mai Corland", 410, false);
+library.addBook(book1)
+
+library.books[0].toggleFav()
+
+library.removeBookByTitle("Words of Radiance");
+
+displayLibrary(library);
+
+console.log();
+displayBooks(library.getBooksByAuthor("Mai Corland"));
+
+console.log();
+console.log(library.getTotalPages());
 
 
-movieCollection.movies[0].toggleFav();
-
-//displayMovies(movieCollection);
-
-movieCollection.removeMovieByTitle("Hold Those Horses!");
-
-console.log("Movie Collection:");
-displayMovies(movieCollection);
-
-console.log("\n");
-console.log("Longest movie in collection:");
-console.log(findLongestMovie(movieCollection));
-
-console.log("\n");
-console.log("Number of fav movies:")
-console.log(favMovieCount(movieCollection));
-
-console.log("\n");
-const totalDur = totalMoviesDuration(movieCollection);
-console.log("Total duration of movies:")
-console.log(`${totalDur} minutes`);
-
-console.log("\n");
-console.log("Movie found by director name:")
-console.log(findMoviesByDirector(movieCollection, "D. P."));
 
 
 

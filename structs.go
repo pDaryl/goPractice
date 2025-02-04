@@ -2,144 +2,112 @@ package main
 
 import "fmt"
 
-type Movies struct {
+type Books struct {
 	Title string
-	Director string 
-	Duration int
-	isFavorite bool
+	Author string
+	Pages int 
+	isCheckedOut bool
 }
 
-type MovieCollection struct{
-	Movies []Movies
+type Library struct{
+	Books []Books
 }
 
-func DisplayMovies(movies []Movies){
-	for _, m := range movies {
-		fmt.Printf("Title: %s, Director: %s, Duration: %d, Favorites: %v\n", m.Title, m.Director, m.Duration, m.isFavorite)
-	}
+func (b *Books) toggleCheckOut(){
+	b.isCheckedOut = !b.isCheckedOut;
 }
 
-func (m *Movies) toggleFav(){
-	m.isFavorite = !m.isFavorite
+func (l *Library) addBooks(newBook Books){
+	l.Books = append(l.Books, newBook)
 }
 
-func (mc *MovieCollection) addMovie(NewMovie Movies){
-	mc.Movies = append(mc.Movies, NewMovie)
-}
+func (l *Library) removeBooksByTitle(title string) []Books {
+	var newLibrary []Books
 
-func (mc *MovieCollection) removeMovieByTitle(title string) []Movies {
-var editedMovies []Movies
-
-for _, movie := range mc.Movies {
-if movie.Title != title {
-	editedMovies = append(editedMovies, movie)
-}
-}
-return editedMovies
-}
-
-func findLongestDuration(collection []Movies) Movies {
-var longestMovie Movies
-maxDur := 0
-
-for _, c := range collection{
-	if c.Duration > maxDur {
-		maxDur = c.Duration
-		longestMovie = c
-	}
-}
-return longestMovie
-}
-
-func favMovieCount(collection []Movies) int {
-	favMovies := 0
-
-	for _, c := range collection{
-		if c.isFavorite == true {
-			favMovies++
+	for _, book := range l.Books {
+		if book.Title != title{
+			newLibrary = append(newLibrary, book)
 		}
 	}
-	return favMovies
+	return newLibrary
 }
 
-func findMoviesByDirector(collection []Movies, director string) []Movies {
-var movieByDirector []Movies
+func (l *Library) getBooksByAuthor(author string) []Books {
+	var booksByAuthor []Books
 
-for _, c := range collection {
-	if c.Director == director {
-		movieByDirector = append(movieByDirector, c)
+	for _, book := range l.Books {
+		if book.Author == author {
+			booksByAuthor = append(booksByAuthor, book)
+		}
+	}
+	return booksByAuthor
+}
+
+func (l *Library) getTotalPages() int {
+totalPages := 0
+
+for _, book := range l.Books{
+	totalPages += book.Pages
+}
+return totalPages
+}
+
+func displayLibrary(books []Books){
+	for _, book := range books {
+		fmt.Printf("Title: %s, Author: %s, Pages: %d, Checked Out: %v\n", book.Title, book.Author, book.Pages, book.isCheckedOut)
 	}
 }
-return movieByDirector
-}
 
-func totalMoviesDuration(collection []Movies) int {
-	totalDur := 0
-
-	for _, c := range collection {
-		totalDur += c.Duration
-	}
-	return totalDur
-}
 
 func main(){
 
-	movies := []Movies{
-		{Title:      "The Runaway",
-		Director:   "D. P.",
-		Duration:   110,
-		isFavorite: false,
+books := []Books{
+	{
+		Title:        "The Night Ends With Fire",
+		Author:       "K. X. Song",
+		Pages:        410,
+		isCheckedOut: false,
 	}, 
 	{
-		Title:      "Hold Those Horses!",
-		Director:   "H. H. Manny",
-		Duration:   72,
-		isFavorite: false,
+		Title:        "Four Ruined Realms",
+		Author:       "Mai Corland",
+		Pages:        413,
+		isCheckedOut: false,
 	}, 
 	{
-		Title:      "Don't Leave",
-		Director:   "F Boy",
-		Duration:   85,
-		isFavorite: false,
-	},
+		Title:        "The Way of Kings",
+		Author:       "Brandon Sanderson",
+		Pages:        1007,
+		isCheckedOut: false,
+	}, {
+		Title:        "Words of Radiance",
+		Author:       "Brandon Sanderson",
+		Pages:        1088,
+		isCheckedOut: false,
+	}, 
 }
 
-movieCollection := MovieCollection{}
+library := Library{}
 
-movies[0].toggleFav()
+book1 := Books{"Five Broken Blades", "Mai Corland", 410, false}
 
-movie1 := Movies{
-	Title:      "Ho Ho Hoe",
-	Director:   "Naughty Santa",
-	Duration:   90,
-	isFavorite: false,
-}
+library.addBooks(books[0])
+library.addBooks(books[1])
+library.addBooks(books[2])
+library.addBooks(books[3])
+library.addBooks(book1)
 
-movieCollection.addMovie(movie1)
-movieCollection.addMovie(movies[0])
-movieCollection.addMovie(movies[1])
-movieCollection.addMovie(movies[2])
+library.Books[0].toggleCheckOut()
+library.Books[1].toggleCheckOut()
 
-//DisplayMovies(movies)
-fmt.Println("All movies in collectin:")
-DisplayMovies(movieCollection.Movies)
+library.Books = library.removeBooksByTitle("Words of Radiance")
 
-fmt.Println()
-fmt.Println("All Movies AFTER removing:")
-movieCollection.Movies = movieCollection.removeMovieByTitle("Hold Those Horses!")
-DisplayMovies(movieCollection.Movies)
+//byAuthor := library.getBooksByAuthor("Mai Corland")
 
-fmt.Println()
-longestMovie := findLongestDuration(movieCollection.Movies)
-fmt.Printf("the longest movie: %v\n", longestMovie)
+displayLibrary(library.Books)
 
-fmt.Println()
-fmt.Println("Number of favorite movies in collection:", favMovieCount(movieCollection.Movies))
+totalPages := library.getTotalPages()
+fmt.Println(totalPages)
 
-fmt.Println()
-moviesByDirector := findMoviesByDirector(movieCollection.Movies, "D. P.")
-fmt.Println("Movies by Director name:\n", moviesByDirector)
 
-fmt.Println()
-fmt.Printf("Total Duration of all movies is %dmins:\n", totalMoviesDuration(movieCollection.Movies))
 }
